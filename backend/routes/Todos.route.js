@@ -45,5 +45,50 @@ todoRouter.delete("/deleteTodo/:id", async (req, res) => {
     res.send(err);
   }
 });
+// todoRouter.get("/completedTodos",async(req,res)=>{
+//   try{
+//     const todos=await todoModel.find({status:"completed"});
+//     res.send(todos)
 
+//   }catch(err){
+//     res.send(err)
+//   }
+// })
+// todoRouter.get("/activeTodos",async(req,res)=>{
+//   try{
+//     const todos=await todoModel.find({status:"initiated"});
+//     // console.log(todos)
+//     res.send(todos)
+//   }
+//   catch(err){
+//     res.send(err)
+//   }
+// })
+todoRouter.get("/todoStatus/:status",async(req,res)=>{
+  const status=req.params.status;
+  console.log(status)
+  try{
+    if(status==="completed"){
+      const completedTodos=await todoModel.find({status:"completed"})
+      res.send(completedTodos)
+
+    }
+    else if(status==="initiated"){
+      const activeTodos= await todoModel.find({status:"initiated"})
+      res.send(activeTodos)
+
+
+
+
+    }
+    else{
+      const allTodos=await todoModel.find()
+      res.send(allTodos)
+    }
+
+
+  }catch(err){
+    res.send(err)
+  }
+})
 module.exports = { todoRouter };
